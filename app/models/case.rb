@@ -54,7 +54,7 @@ class Case < ApplicationRecord
     while run
       if el.name == "p"
         #month/day/year, text, filed by
-        matches = el.text.match /(\d{2})\/(\d{2})\/([0-9]{4})\s(.*)(Filed\sby\s.*)/
+        matches = el.text.match /(\d{2})\/(\d{2})\/([0-9]{4})\s(.*)Filed\sby\s(.*)/
         unless matches.nil?
 
           date = "#{ matches[2] }/#{matches[1]}/#{matches[3]}"
