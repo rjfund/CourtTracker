@@ -3,6 +3,11 @@ task :scrape => :environment do
   scan_for_new_data
   new_documents = Document.where(needs_email: true)
   if new_documents.count
+    new_documents.each do |doc|
+      doc.needs_email = false
+      doc.save
+    end
+
     UpdateMailer.test_email.deliver
   end
 end
