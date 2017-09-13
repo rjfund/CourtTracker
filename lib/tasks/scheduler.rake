@@ -8,7 +8,8 @@ task :scrape => :environment do
       doc.save
     end
 
-    UpdateMailer.test_email.deliver
+    UpdateMailer.test_email(new_documents.count).deliver
+
   end
 end
 
