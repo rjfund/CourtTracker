@@ -1,4 +1,4 @@
-class UpdateMailer > ApplicationMailer
+class UpdateMailer < ApplicationMailer
 
   default from: "app76885431@heroku.com"
 
