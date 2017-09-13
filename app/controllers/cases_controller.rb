@@ -5,6 +5,8 @@ class CasesController < ApplicationController
   # GET /cases.json
   def index
     @cases = Case.all
+    @documents = Document.all
+    @hearings = Hearing.all
   end
 
   # GET /cases/1

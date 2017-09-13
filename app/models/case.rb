@@ -33,12 +33,12 @@ class Case < ApplicationRecord
 
       if el.name == 'b'
         text = el.text + el.next.text
-        parsed_time = text.match /(\d{2})\/(\d{2})\/(\d{4})\sat\s(\d{2}:\d{2}\s\w\w)/
+        parsed_time = text.match /(\d{2})\/(\d{2})\/(\d{4})\sat\s(\d{2}:\d{2}\s\w\w)\s(.*)/
         title = text
 
         hearing = Hearing.new
         hearing.time = "#{parsed_time[3]}-#{parsed_time[1]}-#{parsed_time[2]} #{parsed_time[4]}"
-        hearing.title = title
+        hearing.title = parsed_time[5]
         hearing.case = self
         hearing.save
       
@@ -53,12 +53,13 @@ class Case < ApplicationRecord
     run = true
     while run
       if el.name == "p"
-        matches = el.text.match /([0-1][0-9]\/[0-3][0-9]\/[0-9]{4})\s(.*)(Filed\sby\s.*)/
+        #month/day/year, text, filed by
+        matches = el.text.match /(\d{2})\/(\d{2})\/([0-9]{4})\s(.*)(Filed\sby\s.*)/
         unless matches.nil?
 
-          date = matches[1]
-          title = matches[2]
-          filed_by = matches[3]
+          date = "#{ matches[2] }/#{matches[1]}/#{matches[3]}"
+          title = matches[4]
+          filed_by = matches[5]
 
           document = Document.new
           document.date = date
