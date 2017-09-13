@@ -1,0 +1,22 @@
+<%= form_for(kase) do |f| %>
+  <% if kase.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(kase.errors.count, "error") %> prohibited this case from being saved:</h2>
+
+      <ul>
+      <%kase.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uid %>
+    <%= f.text_field :uid %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
