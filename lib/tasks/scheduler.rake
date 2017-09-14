@@ -4,7 +4,7 @@ task :scrape => :environment do
   User.all.each do |user|
     scan_for_new_data(user)
 
-    new_documents = user.documents.select(&:needs_emails)
+    new_documents = user.documents.select(&:needs_email)
 
     unless new_documents.empty?
       # send the new docuemnts in an email...
