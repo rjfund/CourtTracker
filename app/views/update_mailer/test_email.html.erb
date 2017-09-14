@@ -1,5 +1,4 @@
 <h1>New Documents Posted:</h1>
-
 <% @new_documents.group_by(&:case).each do |kase, docs|  %>
   <h3><%= kase.title %></h3>
   <% docs.each do |doc|  %>
