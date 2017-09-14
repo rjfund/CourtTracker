@@ -5,7 +5,8 @@ task :scrape => :environment do
   new_documents = Document.where(needs_email: true)
   puts new_documents
 
-  if new_documents.count
+  unless new_documents.empty?
+    # send the new docuemnts in an email...
     new_documents.each do |doc|
       doc.needs_email = false
       doc.save
