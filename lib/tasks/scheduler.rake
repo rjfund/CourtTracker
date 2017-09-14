@@ -1,14 +1,18 @@
 desc "This task is called by the Heroku scheduler add-on"
 task :scrape => :environment do
   scan_for_new_data
+
   new_documents = Document.where(needs_email: true)
+  puts new_documents
+
   if new_documents.count
     new_documents.each do |doc|
       doc.needs_email = false
       doc.save
     end
 
-    UpdateMailer.test_email(new_documents).deliver
+    #UpdateMailer.test_email(new_documents).deliver
+    puts new_documents
 
   end
 end
@@ -83,7 +87,7 @@ def scan_for_new_data
           match = Document.where(date: document.date).where(title: document.title).where(filed_by: document.filed_by).where(case_id: document.case.id)
 
           # if it's not already in there add it to the database and flag it for email
-          if !match
+          if match.empty?
             document.needs_email = true
             document.save
           end
