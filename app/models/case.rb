@@ -1,4 +1,5 @@
 class Case < ApplicationRecord
+  belongs_to :user
   has_many :documents, dependent: :destroy
   has_many :hearings, dependent: :destroy
   attr_accessor :name
