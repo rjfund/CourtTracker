@@ -1,24 +1,25 @@
 desc "This task is called by the Heroku scheduler add-on"
 task :scrape => :environment do
-  scan_for_new_data
 
-  new_documents = Document.where(needs_email: true)
-  puts new_documents
+  User.all.each do |user|
+    scan_for_new_data(user)
 
-  unless new_documents.empty?
-    # send the new docuemnts in an email...
-    new_documents.each do |doc|
-      doc.needs_email = false
-      doc.save
+    new_documents = user.documents.select(&:needs_emails)
+
+    unless new_documents.empty?
+      # send the new docuemnts in an email...
+      new_documents.each do |doc|
+        doc.needs_email = false
+        doc.save
+      end
+      UpdateMailer.test_email(user, new_documents).deliver
     end
-
-    UpdateMailer.test_email(new_documents).deliver
-
   end
+
 end
 
-def scan_for_new_data
-  Case.all.each do |kase|
+def scan_for_new_data(user)
+  user.cases.each do |kase|
 
     require 'rubygems'
     require 'mechanize'

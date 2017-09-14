@@ -4,9 +4,9 @@ class CasesController < ApplicationController
   # GET /cases
   # GET /cases.json
   def index
-    @cases = Case.all
-    @documents = Document.all
-    @hearings = Hearing.all
+    @cases = current_user.cases
+    @documents = current_user.documents
+    @hearings = current_user.hearings
   end
 
   # GET /cases/1
@@ -27,6 +27,7 @@ class CasesController < ApplicationController
   # POST /cases.json
   def create
     @case = Case.new(case_params)
+    @case.user = current_user
 
     respond_to do |format|
       if @case.save
