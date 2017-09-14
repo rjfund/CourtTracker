@@ -2,7 +2,9 @@
 <% @new_documents.group_by(&:case).each do |kase, docs|  %>
   <h3><%= kase.title %></h3>
   <% docs.each do |doc|  %>
-    <p> <%= doc.date.to_s + " " + doc.title %> </p>
+    <p> 
+      <%= doc.date.to_s + " | " + doc.title + "Filed by: " + doc.filed_by %>
+    </p>
   <% end %>
 <% end %>
 
