@@ -11,8 +11,7 @@ task :scrape => :environment do
       doc.save
     end
 
-    #UpdateMailer.test_email(new_documents).deliver
-    puts new_documents
+    UpdateMailer.test_email(new_documents).deliver
 
   end
 end
