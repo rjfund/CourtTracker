@@ -4,7 +4,7 @@ class UpdateMailer < ApplicationMailer
 
   def test_email(new_documents)
     @new_documents = new_documents
-    mail(to: "coopermayne@gmail.com", subject: "heyhey")
+    mail(to: "coopermayne@gmail.com", subject: "New Documents Posted")
   end
 
 end
