@@ -8,7 +8,7 @@ task :scrape => :environment do
       doc.save
     end
 
-    UpdateMailer.test_email(new_documents.count).deliver
+    UpdateMailer.test_email(new_documents).deliver
 
   end
 end
@@ -82,7 +82,7 @@ def scan_for_new_data
           #check if document is already in DB
           match = Document.where(date: document.date).where(title: document.title).where(filed_by: document.filed_by).where(case_id: document.case.id)
 
-          # if it's not already in there add it to the database and add it to array for return value
+          # if it's not already in there add it to the database and flag it for email
           if !match
             document.needs_email = true
             document.save
@@ -97,6 +97,5 @@ def scan_for_new_data
       end
     end
   end
-
 end
 

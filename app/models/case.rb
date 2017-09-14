@@ -21,12 +21,14 @@ class Case < ApplicationRecord
     form.field_with(:name=> "CaseNumber").value = test_case_number
 
     page = mechanize.submit(form)
-
     noko = Nokogiri::HTML(page.body)
 
-    el = noko.at('span.contentSubHeading:contains("Future Hearings")')
+    self.title = noko.at('span.boldText:contains("Case Number:")').next.next.next.text.strip
+    self.save
 
     #get future hearings
+    #TODO get multiple (need a sameple case number)
+    el = noko.at('span.contentSubHeading:contains("Future Hearings")')
     run = true
     while run
       el = el.next
