@@ -15,6 +15,7 @@ gem 'bootstrap', '~> 4.0.0.alpha3'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
+gem 'devise'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
