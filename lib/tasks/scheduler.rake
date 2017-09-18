@@ -43,18 +43,21 @@ def scan_for_new_data(user)
     el = noko.at('span.contentSubHeading:contains("Future Hearings")')
 
     #get future hearings
-    run = true
+    run = !el.nil?
     while run
       el = el.next
 
       if el.name == 'b'
         text = el.text + el.next.text
-        parsed_time = text.match /(\d{2})\/(\d{2})\/(\d{4})\sat\s(\d{2}:\d{2}\s\w\w)\s(.*)/
-        title = text
+
+        parsed_event = Nickel.parse text
+        sd= parsed_event.occurrences.first.start_date
+        st= parsed_event.occurrences.first.start_time
 
         hearing = Hearing.new
-        hearing.time = "#{parsed_time[3]}-#{parsed_time[1]}-#{parsed_time[2]} #{parsed_time[4]}"
-        hearing.title = parsed_time[5]
+        hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.minute)
+        hearing.title = parsed_event.message
+
         hearing.case = kase
         #hearing.save
 
@@ -66,7 +69,7 @@ def scan_for_new_data(user)
     end
 
     el = noko.at('span.contentSubHeading:contains("Documents Filed")')
-    run = true
+    run = !el.nil?
     while run
       if el.name == "p"
         #month/day/year, text, filed by

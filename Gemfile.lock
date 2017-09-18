@@ -110,6 +110,7 @@ GEM
     multi_json (1.12.2)
     net-http-digest_auth (1.4.1)
     net-http-persistent (2.9.4)
+    nickel (0.1.6)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -212,6 +213,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   mechanize
+  nickel
   nokogiri
   pg (~> 0.18)
   puma (~> 3.0)
