@@ -61,7 +61,7 @@ def scan_for_new_data(user)
         hearing.case = kase
 
         #check if hearing is already in DB
-        match = Hearing.where(time: hearing.time).where(title: hearing.title).where(case_id: document.case.id)
+        match = Hearing.where(time: hearing.time).where(title: hearing.title).where(case_id: hearing.case.id)
 
         # if it's not already in there add it to the database and flag it for email
         if match.empty?
