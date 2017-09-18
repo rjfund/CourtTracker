@@ -5,14 +5,21 @@ task :scrape => :environment do
     scan_for_new_data(user)
 
     new_documents = user.documents.select(&:needs_email)
+    new_hearings = user.hearings.select(&:needs_email)
 
-    unless new_documents.empty?
+    unless new_documents.empty? && new_hearings.empty?
       # send the new docuemnts in an email...
       new_documents.each do |doc|
         doc.needs_email = false
         doc.save
       end
-      UpdateMailer.test_email(user, new_documents).deliver
+
+      new_hearings.each do |hearing|
+        hearing.needs_email = false
+        hearing.save
+      end
+
+      UpdateMailer.test_email(user, new_documents, new_hearings).deliver
     end
   end
 

@@ -1,10 +1,23 @@
-<h1>New Documents Posted:</h1>
-<% @new_documents.group_by(&:case).each do |kase, docs|  %>
-  <h3><%= kase.title %></h3>
-  <% docs.each do |doc|  %>
-    <p> 
-      <%= doc.date.to_s + " | " + doc.title + "Filed by: " + doc.filed_by %>
-    </p>
+<% unless  @new_documents.empty? %>
+  <h1>New Documents Posted:</h1>
+  <% @new_documents.group_by(&:case).each do |kase, docs|  %>
+    <h3><%= kase.title %></h3>
+    <% docs.each do |doc|  %>
+      <p> 
+        <%= doc.date.to_s + " | " + doc.title + "Filed by: " + doc.filed_by %>
+      </p>
+    <% end %>
   <% end %>
 <% end %>
 
+<% unless  @new_hearings.empty? %>
+  <h1>New Hearings Posted:</h1>
+  <% @new_hearings.group_by(&:case).each do |kase, hearings|  %>
+    <h3><%= kase.title %></h3>
+    <% hearings.each do |hearing|  %>
+      <p> 
+        <%= hearing.time.to_formatted_s(:long_ordinal) + " | " + hearing.title %>
+      </p>
+    <% end %>
+  <% end %>
+<% end %>
