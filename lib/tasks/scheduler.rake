@@ -62,7 +62,7 @@ def scan_for_new_data(user)
         st= parsed_event.occurrences.first.start_time
 
         hearing = Hearing.new
-        hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.minute)
+        hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.min)
         hearing.title = parsed_event.message
 
         hearing.case = kase
