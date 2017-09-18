@@ -38,10 +38,6 @@ class Case < ApplicationRecord
 
       if el.name == 'b'
         text = el.text + el.next.text
-        #parsed_time = text.match /(\d{2})\/(\d{2})\/(\d{4})\sat\s(\d{2}:\d{2}\s\w\w)\s(.*)/
-        #title = text
-        #hearing.time = "#{parsed_time[3]}-#{parsed_time[1]}-#{parsed_time[2]} #{parsed_time[4]}"
-        #hearing.title = parsed_time[5]
         
         parsed_event = Nickel.parse text
         sd= parsed_event.occurrences.first.start_date

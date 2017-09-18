@@ -59,7 +59,15 @@ def scan_for_new_data(user)
         hearing.title = parsed_event.message
 
         hearing.case = kase
-        #hearing.save
+
+        #check if hearing is already in DB
+        match = Hearing.where(time: hearing.date).where(title: hearing.title).where(case_id: document.case.id)
+
+        # if it's not already in there add it to the database and flag it for email
+        if match.empty?
+          hearing.needs_email = true
+          hearing.save
+        end
 
       end
 
@@ -85,7 +93,6 @@ def scan_for_new_data(user)
           document.title = title
           document.filed_by = filed_by
           document.case = kase
-          #document.save
 
           #check if document is already in DB
           match = Document.where(date: document.date).where(title: document.title).where(filed_by: document.filed_by).where(case_id: document.case.id)
