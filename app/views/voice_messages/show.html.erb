@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @voice_message.url %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @voice_message.user %>
+</p>
+
+<p>
+  <strong>Is new:</strong>
+  <%= @voice_message.is_new %>
+</p>
+
+<%= link_to 'Edit', edit_voice_message_path(@voice_message) %> |
+<%= link_to 'Back', voice_messages_path %>
