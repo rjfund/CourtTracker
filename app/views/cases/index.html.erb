@@ -1,25 +1,23 @@
 <div class="cases">
   
-<button class="btn"><%= link_to 'New Case', new_case_path %></button>
+<%= link_to 'Add New Case', new_case_path, class: "new-case btn btn-primary"  %>
 <h1>Cases</h1>
 
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Uid</th>
       <th>Case</th>
-      <th colspan="3"></th>
+      <th>Uid</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @cases.each do |kase| %>
       <tr>
+        <td><%= link_to kase.title, kase %></td>
         <td><%= kase.uid %></td>
-        <td><%= kase.title %></td>
-        <td><%= link_to 'Show', kase%></td>
-        <td><%= link_to 'Edit', edit_case_path(kase) %></td>
-        <td><%= link_to 'Destroy',kase, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy',kase, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -58,7 +56,7 @@
 
 <% @cases.each do |kase| %>
 
-  <h5><%= kase.title %></h4>
+  <h5><%= link_to kase.title, kase %></h5>
 
   <% unless kase.documents.empty? %>
   <table class="table table-striped table-bordered">
