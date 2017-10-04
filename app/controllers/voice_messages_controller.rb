@@ -50,14 +50,11 @@ class VoiceMessagesController < ApplicationController
   # PATCH/PUT /voice_messages/1
   # PATCH/PUT /voice_messages/1.json
   def update
+    @voice_message.is_new = !@voice_message.is_new
+    @voice_message.save
     respond_to do |format|
-      if @voice_message.update(voice_message_params)
-        format.html { redirect_to @voice_message, notice: 'Voice message was successfully updated.' }
-        format.json { render :show, status: :ok, location: @voice_message }
-      else
-        format.html { render :edit }
-        format.json { render json: @voice_message.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to voice_messages_url, notice: 'Marked Done' }
+      format.json { head :no_content }
     end
   end
 
