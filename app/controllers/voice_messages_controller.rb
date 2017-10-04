@@ -7,7 +7,7 @@ class VoiceMessagesController < ApplicationController
   # GET /voice_messages
   # GET /voice_messages.json
   def index
-    @voice_messages = VoiceMessage.all
+    @voice_messages = VoiceMessage.all.sort_by(&:created_at).reverse
   end
 
   # GET /voice_messages/1

@@ -15,7 +15,7 @@
     <tbody>
       <% @voice_messages.select(&:is_new).each do |voice_message| %>
         <tr>
-          <td><%= voice_message.created_at.strftime("%b %d, %Y at %I:%M%p") %></td>
+          <td><%= voice_message.created_at.in_time_zone('America/Los_Angeles').strftime("%b %d, %Y at %I:%M%p") %></td>
           <td>
             <audio controls>
               <source src="<%= voice_message.url%>" type="audio/mpeg">
@@ -47,7 +47,7 @@
     <tbody>
       <% @voice_messages.reject(&:is_new).each do |voice_message| %>
         <tr>
-          <td><%= voice_message.created_at.strftime("%b %d, %Y at %I:%M%p") %></td>
+          <td><%= voice_message.created_at.in_time_zone('America/Los_Angeles').strftime("%b %d, %Y at %I:%M%p") %></td>
           <td>
             <audio controls>
               <source src="<%= voice_message.url%>" type="audio/mpeg">
