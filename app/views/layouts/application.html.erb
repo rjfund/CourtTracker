@@ -12,14 +12,31 @@
 
 
     <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <%= notice %>
+      </div>
     <% end %>
+
     <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <%= alert %>
+      </div>
     <% end %>
 
     <div class="container">
+
       <nav>
+
+        <% if user_signed_in? %>
+          <span class="<%= 'active' if params[:controller] == 'cases' %>"> <%= link_to 'Home', cases_path, :class => 'navbar-link' %> | </span>
+          <span class="<%= 'active' if params[:controller] == 'voice_messages' %>"> <%= link_to "Messages", voice_messages_path, :class => 'navbar-link' %> | </span>
+        <% end %>
 
         <% if user_signed_in? %>
           Logged in as <strong><%= current_user.email %></strong>.
@@ -31,6 +48,7 @@
         <% end %>
 
       </nav>
+
       <%= yield %>
     </div>
 
