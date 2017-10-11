@@ -11,8 +11,58 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require bootstrap
 //= require_tree .
 //
+
+$(document).on('ready', function(){
+  $('.hearings').hide();
+  $('.documents').hide();
+  $('.cases').show();
+
+  $('.old').hide();
+  $('.new').show();
+
+  $('li.new-link').on('click', function(){
+    $('.tabs li').removeClass('is-active');
+    $(this).addClass('is-active');
+
+    $('.new').show();
+    $('.old').hide();
+  })
+
+  $('li.old-link').on('click', function(){
+    $('.tabs li').removeClass('is-active');
+    $(this).addClass('is-active');
+
+    $('.old').show();
+    $('.new').hide();
+  })
+
+
+  $('li.cases-link').on('click', function(){
+    $('.tabs li').removeClass('is-active');
+    $(this).addClass('is-active');
+
+    $('.cases').show();
+    $('.hearings').hide();
+    $('.documents').hide();
+  })
+
+  $('li.hearings-link').on('click', function(e){
+    $('.tabs li').removeClass('is-active');
+    $(this).addClass('is-active');
+
+    $('.cases').hide();
+    $('.hearings').show();
+    $('.documents').hide();
+  })
+
+  $('li.documents-link').on('click', function(e){
+    $('.tabs li').removeClass('is-active');
+    $(this).addClass('is-active');
+
+    $('.cases').hide();
+    $('.hearings').hide();
+    $('.documents').show();
+  })
+})

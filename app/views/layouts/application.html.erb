@@ -2,56 +2,45 @@
 <html>
   <head>
     <title>CourtTracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
 
+    <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item has-text-weight-bold" href="/">
+          CrtTrkr
+        </a>
 
-    <% if notice %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <%= notice %>
       </div>
-    <% end %>
 
-    <% if alert %>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <%= alert %>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <%= link_to 'Cases', cases_path, class: 'navbar-item' %>
+          <%= link_to 'Voicemail', voice_messages_path, class: 'navbar-item' %>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <a class="button">
+              <span class="icon">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+              </span>
+              <span>Logout</span>
+            </a>
+          </div>
+        </div>
       </div>
-    <% end %>
-
-    <div class="container">
-
-      <nav>
-
-        <% if user_signed_in? %>
-          <span class="<%= 'active' if params[:controller] == 'cases' %>"> <%= link_to 'Home', cases_path, :class => 'navbar-link' %> | </span>
-          <span class="<%= 'active' if params[:controller] == 'voice_messages' %>"> <%= link_to "Messages", voice_messages_path, :class => 'navbar-link' %> | </span>
-        <% end %>
-
-        <% if user_signed_in? %>
-          Logged in as <strong><%= current_user.email %></strong>.
-          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-          <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-        <% else %>
-          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-          <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-        <% end %>
-
-      </nav>
+    </nav>
 
       <%= yield %>
-    </div>
-
 
   </body>
 </html>

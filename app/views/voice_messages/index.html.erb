@@ -1,66 +1,94 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Voice Messages</h1>
-
-<% unless @voice_messages.select(&:is_new).empty? %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Message</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @voice_messages.select(&:is_new).each do |voice_message| %>
-        <tr>
-          <td><%= voice_message.created_at.in_time_zone('America/Los_Angeles').strftime("%b %d, %Y at %I:%M%p") %></td>
-          <td>
-            <audio controls>
-              <source src="<%= voice_message.url%>" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-          </td>
-
-          <td><%= link_to 'Mark Done', voice_message, method: :put, class: "btn btn-info" %></td>
+<section class="hero is-danger is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Voicemail
+      </h1>
+    </div>
+  </div>
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+          <li class="new-link is-active"><a>New</a></li>
+          <li class="old-link"><a>Old</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
 
 
-          <td><%= link_to 'Delete', voice_message, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+<section class="section main">
+  <div class='main container'>
 
-<% unless @voice_messages.reject(&:is_new).empty? %>
-  <h3>Old Messages</h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Message</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
+    <div class="new">
+      
+        <% unless @voice_messages.select(&:is_new).empty? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Message</th>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
 
-    <tbody>
-      <% @voice_messages.reject(&:is_new).each do |voice_message| %>
-        <tr>
-          <td><%= voice_message.created_at.in_time_zone('America/Los_Angeles').strftime("%b %d, %Y at %I:%M%p") %></td>
-          <td>
-            <audio controls>
-              <source src="<%= voice_message.url%>" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-          </td>
+            <tbody>
+              <% @voice_messages.select(&:is_new).each do |voice_message| %>
+                <tr>
+                  <td><%= voice_message.created_at.in_time_zone('America/Los_Angeles').strftime("%b %d, %Y at %I:%M%p") %></td>
+                  <td>
+                    <audio controls>
+                      <source src="<%= voice_message.url%>" type="audio/mpeg">
+                      Your browser does not support the audio element.
+                    </audio>
+                  </td>
 
-          <td><%= link_to 'Mark New', voice_message, method: :put, class: "btn btn-info" %></td>
+                  <td><%= link_to 'Mark Done', voice_message, method: :put, class: "btn btn-info" %></td>
 
 
-          <td><%= link_to 'Delete', voice_message, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+                  <td><%= link_to '', voice_message, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+    </div>
+
+    <div class="old">
+        <% unless @voice_messages.reject(&:is_new).empty? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Message</th>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @voice_messages.reject(&:is_new).each do |voice_message| %>
+                <tr>
+                  <td><%= voice_message.created_at.in_time_zone('America/Los_Angeles').strftime("%b %d, %Y at %I:%M%p") %></td>
+                  <td>
+                    <audio controls>
+                      <source src="<%= voice_message.url%>" type="audio/mpeg">
+                      Your browser does not support the audio element.
+                    </audio>
+                  </td>
+
+                  <td><%= link_to 'Mark New', voice_message, method: :put, class: "btn btn-info" %></td>
+
+
+                  <td><%= link_to "", voice_message, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      
+    </div>
+
+  </div>
+</section>

@@ -1,90 +1,99 @@
-<div class="cases">
-  
-<%= link_to 'Add New Case', new_case_path, class: "new-case btn btn-primary"  %>
-<h1>Cases</h1>
+<section class="hero is-info is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Cases
+      </h1>
+    </div>
+  </div>
 
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Case</th>
-      <th>Uid</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+          <li class="cases-link is-active"><a>Cases</a></li>
+          <li class="hearings-link"><a>Hearings</a></li>
+          <li class="documents-link"><a>Documents</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
-  <tbody>
-    <% @cases.each do |kase| %>
-      <tr>
-        <td><%= link_to kase.title, kase %></td>
-        <td><%= kase.uid %></td>
-        <td><%= link_to 'Destroy',kase, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+</section>
 
 
-</div>
+<section class="main section">
+  <div class='main container'>
 
 
-<div>
-<h1>Hearings</h1>
-
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Case</th>
-      <th>Location</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @hearings.sort_by(&:time).each do |hearing| %>
-      <tr>
-        <td><%= hearing.time.strftime("%b %d, %Y at %I:%M%p") %></td>
-        <td><%= hearing.case.title %></td>
-        <td><%= hearing.title %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-</div>
-<div>
-<h1>Documents</h1>
-
-<% @cases.each do |kase| %>
-
-  <h5><%= link_to kase.title, kase %></h5>
-
-  <% unless kase.documents.empty? %>
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Title</th>
-        <th>Filed By</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% kase.documents.sort_by(&:date).reverse.each do |doc| %>
+  <div class="cases">
+    <table class="table">
+      <thead>
         <tr>
-          <td style="width:150px"><%= doc.date.strftime("%b %d, %Y") if doc.date %></td>
-          <td><%= doc.title %></td>
-          <td><%= doc.filed_by %></td>
+          <th>Case</th>
+          <th>Uid</th>
+          <th colspan="2"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
 
-  <% else %>
-    <p>No Documents</p>
-  <% end %>
+      <tbody>
+        <% @cases.each do |kase| %>
+          <tr>
+            <td><%= link_to kase.title, kase %></td>
+            <td><%= kase.uid %></td>
+            <td><%= link_to '',kase, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash is-danger" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <hr>
-<% end %>
+  <div class="hearings">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Case</th>
+          <th>Location</th>
+        </tr>
+      </thead>
 
-</div>
+      <tbody>
+        <% @hearings.sort_by(&:time).each do |hearing| %>
+          <tr>
+            <td>
+              <%= hearing.time.strftime("%b %d, %Y") %>
+              <br>
+              <%= hearing.time.strftime("%I:%M%p") %></td>
+            <td><%= link_to hearing.case.title, hearing.case %></td>
+            <td><%= hearing.title %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
+  <div class="documents">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Filed By</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @documents.sort_by(&:date).reverse.each do |doc| %>
+          <tr>
+            <td style="width:150px"><%= doc.date.strftime("%b %d, %Y") if doc.date %></td>
+            <td><%= doc.title %></td>
+            <td><%= doc.filed_by %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+</section>
