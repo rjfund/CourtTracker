@@ -34,13 +34,27 @@
           <%= link_to 'Voicemail', voice_messages_path, class: 'navbar-item' %>
         </div>
         <div class="navbar-end">
-          <div class="navbar-item">
-            <a class="button">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
               <span class="icon">
-                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                <i class="fa fa-user" aria-hidden="true"></i>
               </span>
-              <span>Logout</span>
             </a>
+
+            <div class="navbar-dropdown is-right">
+              <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-item' %>
+
+              <hr class="navbar-divider">
+
+              <%= link_to destroy_user_session_path, method: :delete, :class => 'navbar-item' do  %>
+                <span class="icon">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
+                </span>
+                Logout
+                <span>
+                </span>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
