@@ -17,7 +17,12 @@
     <nav class="navbar" role="navigation" aria-label="dropdown navigation">
       <div class="navbar-brand">
         <a class="navbar-item has-text-weight-bold" href="/">
+          <span class="icon">
+            <i class="fa fa-gavel" aria-hidden="true"></i>
+          </span>
+          <span>
           CrtTrkr
+          </span>
         </a>
         <button class="button navbar-burger" data-target="navMenu">
           <span></span>
@@ -27,6 +32,8 @@
 
 
       </div>
+
+      <% if user_signed_in? %>
 
       <div class="navbar-menu" id="navMenu">
         <div class="navbar-start">
@@ -58,6 +65,8 @@
           </div>
         </div>
       </div>
+
+      <% end %>
     </nav>
 
       <%= yield %>
