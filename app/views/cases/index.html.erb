@@ -32,14 +32,13 @@
         <tr>
           <th>Case</th>
           <th>Uid</th>
-          <th colspan="2"></th>
         </tr>
       </thead>
 
       <tbody>
         <% @cases.each do |kase| %>
           <tr>
-            <td><%= link_to kase.title, kase %></td>
+            <td><%= link_to kase.title.titleize, kase %></td>
             <td><%= kase.uid %></td>
           </tr>
         <% end %>
@@ -61,10 +60,10 @@
         <% @hearings.sort_by(&:time).each do |hearing| %>
           <tr>
             <td>
-              <%= hearing.time.strftime("%b %d, %Y") %>
+              <%= hearing.time.strftime("%m/%d/%Y") %>
               <br>
               <%= hearing.time.strftime("%I:%M%p") %></td>
-            <td><%= link_to hearing.case.title, hearing.case %></td>
+            <td><%= link_to hearing.case.title.titleize, hearing.case %></td>
             <td><%= hearing.title %></td>
           </tr>
         <% end %>
@@ -79,15 +78,17 @@
           <th>Date</th>
           <th>Title</th>
           <th>Filed By</th>
+          <th>Case</th>
         </tr>
       </thead>
 
       <tbody>
         <% @documents.sort_by(&:date).reverse.each do |doc| %>
           <tr>
-            <td style="width:150px"><%= doc.date.strftime("%b %d, %Y") if doc.date %></td>
+            <td><%= doc.date.strftime("%m/%d/%Y") if doc.date %></td>
             <td><%= doc.title %></td>
             <td><%= doc.filed_by %></td>
+            <td><%= doc.case.title.titleize %></td>
           </tr>
         <% end %>
       </tbody>
