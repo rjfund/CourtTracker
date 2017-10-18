@@ -24,16 +24,14 @@ table {
   max-width: 1100px;
 }
 
-//nav {
-  //text-align: right;
-  //margin-bottom: 20px;
+.hero-foot .is-active {
+  text-decoration: underline;
+}
 
-//}
-//.active {
-  //a{
-    //font-weight: bold;
-    //text-decoration: underline;
-  //}
-//}
+.hero-foot .container {
+  max-width: 500px;
+}
 
-
+.navbar-burger {
+  border: 0px
+}

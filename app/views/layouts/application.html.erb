@@ -19,10 +19,16 @@
         <a class="navbar-item has-text-weight-bold" href="/">
           CrtTrkr
         </a>
+        <button class="button navbar-burger" data-target="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
 
       </div>
 
-      <div class="navbar-menu">
+      <div class="navbar-menu" id="navMenu">
         <div class="navbar-start">
           <%= link_to 'Cases', cases_path, class: 'navbar-item' %>
           <%= link_to 'Voicemail', voice_messages_path, class: 'navbar-item' %>

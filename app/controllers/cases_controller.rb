@@ -4,9 +4,12 @@ class CasesController < ApplicationController
   # GET /cases
   # GET /cases.json
   def index
-    @cases = current_user.cases
+    @cases = current_user.cases.sort_by(&:title)
     @documents = current_user.documents
     @hearings = current_user.hearings
+
+    @case = Case.new
+    #@case.user = current_user
   end
 
   # GET /cases/1

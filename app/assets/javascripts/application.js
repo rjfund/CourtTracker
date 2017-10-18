@@ -11,13 +11,19 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery_ujs
 //= require_tree .
 //
 
 $(document).on('ready', function(){
-  $('.hearings').hide();
   $('.documents').hide();
-  $('.cases').show();
+  if ($('.cases').length) {
+    $('.cases').show();
+    $('.hearings').hide();
+  } else {
+    $('.cases').hide();
+    $('.hearings').show();
+  }
 
   $('.old').hide();
   $('.new').show();
@@ -65,4 +71,22 @@ $(document).on('ready', function(){
     $('.hearings').hide();
     $('.documents').show();
   })
+
+  $('#new-case-button').on('click', function(e){
+    e.preventDefault()
+    $('.modal').toggleClass('is-active')
+  })
+
+  $('.modal button.close-modal').on('click', function(e){
+    e.preventDefault()
+    $('.modal').toggleClass('is-active')
+  })
+
+  $('.navbar-burger').on('click', function(e){
+    $(this).toggleClass('is-active')
+    $('.navbar-menu').toggleClass('is-active')
+  })
 })
+
+
+

@@ -21,10 +21,10 @@
 
 </section>
 
-
 <section class="main section">
   <div class='main container'>
 
+  <%= link_to 'New Case', new_case_path, id: 'new-case-button', class: "button is-pulled-right is-primary"  %>
 
   <div class="cases">
     <table class="table">
@@ -41,7 +41,6 @@
           <tr>
             <td><%= link_to kase.title, kase %></td>
             <td><%= kase.uid %></td>
-            <td><%= link_to '',kase, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash is-danger" %></td>
           </tr>
         <% end %>
       </tbody>
@@ -97,3 +96,30 @@
 
   </div>
 </section>
+
+<%= form_for(@case) do |f| %>
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">New Case</p>
+      <button class="delete close-modal" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <div class="field">
+        <%= f.label :uid, class: 'label' %>
+        <div class="control">
+          <%= f.text_field :uid, class: 'input' %>
+        </div>
+        <p class="help">Unique ID for case (e.g. RT158392)</p>
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <%= f.submit 'Save', class: 'button is-success' %>
+      <button class="button close-modal">Cancel</button>
+    </footer>
+  </div>
+</div>
+<% end %>
