@@ -34,22 +34,25 @@ def scan_for_new_data(user)
 
     mechanize = Mechanize.new
 
+######### FORM FILL
+    
     page = mechanize.get('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil')
 
     test_case_number = kase.uid
 
-    case_number_field = page.search("input.textInput")[0]
-
     form = page.forms.last
     form.field_with(:name=> "CaseNumber").value = test_case_number
 
+
     page = mechanize.submit(form)
+
+######### START SCANNING
 
     noko = Nokogiri::HTML(page.body)
 
+######### future hearings
+    
     el = noko.at('span.contentSubHeading:contains("Future Hearings")')
-
-    #get future hearings
     run = !el.nil?
     while run
       el = el.next
@@ -83,6 +86,8 @@ def scan_for_new_data(user)
       end
     end
 
+######### documents filed
+    
     el = noko.at('span.contentSubHeading:contains("Documents Filed")')
     run = !el.nil?
     while run
