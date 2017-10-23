@@ -6,21 +6,21 @@ class Case < ApplicationRecord
   attr_accessor :name
 
 
-  after_create :scrape_data
+  before_create :scrape_data, :check_check
 
   def scrape_data
     if self.case_type == CaseType.find_by_title("Civil")
-      scrape_civil_data
+      res = scrape_civil_data
     elsif self.case_type == CaseType.find_by_title("Criminal")
-      scrape_criminal_data
+      res = scrape_criminal_data
     end
+    return res
   end
 
   def scrape_criminal_data
     require 'rubygems'
     require 'mechanize'
     require 'nokogiri'
-
     mechanize = Mechanize.new
 
     ########## FORM FILL
@@ -36,6 +36,9 @@ class Case < ApplicationRecord
 
     noko = Nokogiri::HTML(page.body)
 
+    ########## EXIT IF NO RESULT FOUND
+    return false if noko.at('td:contains("Defendant Name")').nil?
+    
     defendant_name = noko.at('td:contains("Defendant Name")').next.text.strip
     self.title = defendant_name
     self.save
@@ -78,6 +81,11 @@ class Case < ApplicationRecord
 
     page = mechanize.submit(form)
     noko = Nokogiri::HTML(page.body)
+
+    ########## EXIT IF NO RESULT FOUND
+    return false if noko.at('span.boldText:contains("Case Number:")')
+
+    self.title = noko.at('span.boldText:contains("Case Number:")').next.next.next.text.strip
 
     self.title = noko.at('span.boldText:contains("Case Number:")').next.next.next.text.strip
     self.save

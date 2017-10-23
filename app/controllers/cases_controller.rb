@@ -38,7 +38,7 @@ class CasesController < ApplicationController
         format.html { redirect_to @case, notice: 'Case was successfully created.' }
         format.json { render :show, status: :created, location: @case }
       else
-        format.html { render :new }
+        format.html { redirect_to cases_path, notice: 'Case was not found' }
         format.json { render json: @case.errors, status: :unprocessable_entity }
       end
     end
