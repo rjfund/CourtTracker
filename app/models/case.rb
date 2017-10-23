@@ -20,7 +20,6 @@ class Case < ApplicationRecord
     require 'rubygems'
     require 'mechanize'
     require 'nokogiri'
-    require 'byebug'
 
     mechanize = Mechanize.new
 
