@@ -24,7 +24,6 @@ def scan_for_new_criminal_data(user)
   require 'rubygems'
   require 'mechanize'
   require 'nokogiri'
-  require 'byebug'
 
   user.cases.select{|kase| kase.case_type==CaseType.find_by_title("Criminal")}.each do |kase|
     mechanize = Mechanize.new
@@ -177,7 +176,6 @@ task :crim_scrape => :environment do
   require 'rubygems'
   require 'mechanize'
   require 'nokogiri'
-  require 'byebug'
 
   mechanize = Mechanize.new
 
