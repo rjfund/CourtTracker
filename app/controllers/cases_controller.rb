@@ -29,6 +29,7 @@ class CasesController < ApplicationController
   # POST /cases
   # POST /cases.json
   def create
+    case_params[:type] = case_params[:type]=="Civil" ? true : false
     @case = Case.new(case_params)
     @case.user = current_user
 
@@ -68,13 +69,11 @@ class CasesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_case
       @case = Case.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def case_params
-      params.require(:case).permit(:uid)
+      params.require(:case).permit(:uid, :case_type_id )
     end
 end

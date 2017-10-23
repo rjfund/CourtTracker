@@ -1,5 +1,6 @@
 class Case < ApplicationRecord
   belongs_to :user
+  belongs_to :case_type
   has_many :documents, dependent: :destroy
   has_many :hearings, dependent: :destroy
   attr_accessor :name
@@ -8,6 +9,59 @@ class Case < ApplicationRecord
   after_create :scrape_data
 
   def scrape_data
+    if self.case_type == CaseType.find_by_title("Civil")
+      scrape_civil_data
+    elsif self.case_type == CaseType.find_by_title("Criminal")
+      scrape_criminal_data
+    end
+  end
+
+  def scrape_criminal_data
+    require 'rubygems'
+    require 'mechanize'
+    require 'nokogiri'
+    require 'byebug'
+
+    mechanize = Mechanize.new
+
+    ########## FORM FILL
+
+    page = mechanize.get('http://www.lacourt.org/criminalcasesummary/ui/')
+    page = mechanize.submit(page.forms.last)
+
+    page.forms.last.fields[3].value = self.uid
+
+    page = mechanize.submit(page.forms.last)
+
+    ########## SCAN FOR INFO
+
+    noko = Nokogiri::HTML(page.body)
+
+    defendant_name = noko.at('td:contains("Defendant Name")').next.text.strip
+    self.title = defendant_name
+    self.save
+
+    events_table = noko.at('#siteMasterHolder_basicBodyHolder_TabControls_EventsInfo_tabCaseList')
+    events_table.children.select{|row| row.name=="tr" && row.children.map(&:name).include?("td") }.each do |row|
+      ##### loop through the event rows
+
+      columns = row.children.select{|el| el.name == "td"}.map(&:text)
+      new_hearing = Hearing.new
+
+      date = Date.parse columns[0]
+      time = Time.parse columns[1]
+      location = columns[2] + " ("+ columns[3] + ")"
+      title = columns[4]
+
+      new_hearing.title = title
+      new_hearing.location = location
+      new_hearing.time = Time.new(date.year, date.month, date.day, time.hour, time.min)
+      new_hearing.case = self
+      new_hearing.save
+    end
+  end
+
+  def scrape_civil_data
     require 'rubygems'
     require 'mechanize'
     require 'nokogiri'
@@ -45,7 +99,7 @@ class Case < ApplicationRecord
 
         hearing = Hearing.new
         hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.minute)
-        hearing.title = parsed_event.message
+        hearing.location = parsed_event.message
         hearing.case = self
         hearing.save
       

@@ -64,7 +64,7 @@
               <br>
               <%= hearing.time.strftime("%I:%M%p") %></td>
             <td><%= link_to hearing.case.title.titleize, hearing.case %></td>
-            <td><%= hearing.title %></td>
+            <td><%= hearing.location %></td>
           </tr>
         <% end %>
       </tbody>
@@ -114,6 +114,13 @@
           <%= f.text_field :uid, class: 'input' %>
         </div>
         <p class="help">Unique ID for case (e.g. RT158392)</p>
+      </div>
+
+      <div class="control">
+        <%= f.label :case_type, class: 'label' %>
+        <div class="field">
+          <%= collection_radio_buttons(:case, :case_type_id, CaseType.all, :id, :title) %>
+        </div>
       </div>
 
     </section>

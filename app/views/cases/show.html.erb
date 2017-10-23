@@ -33,7 +33,7 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Case</th>
+          <th>Event</th>
           <th>Location</th>
         </tr>
       </thead>
@@ -45,8 +45,8 @@
               <%= hearing.time.strftime("%b %d, %Y") %>
               <br>
               <%= hearing.time.strftime("%I:%M%p") %></td>
-            <td><%= link_to hearing.case.title, hearing.case %></td>
-            <td><%= hearing.title %></td>
+            <td><%= hearing.title.titleize %></td>
+            <td><%= hearing.location %></td>
           </tr>
         <% end %>
       </tbody>
