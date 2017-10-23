@@ -46,18 +46,18 @@ class Case < ApplicationRecord
       ##### loop through the event rows
 
       columns = row.children.select{|el| el.name == "td"}.map(&:text)
-      new_hearing = Hearing.new
+      hearing = Hearing.new
 
       date = Date.parse columns[0]
       time = Time.parse columns[1]
       location = columns[2] + " ("+ columns[3] + ")"
       title = columns[4]
 
-      new_hearing.title = title
-      new_hearing.location = location
-      new_hearing.time = Time.new(date.year, date.month, date.day, time.hour, time.min)
-      new_hearing.case = self
-      new_hearing.save
+      hearing.title = title
+      hearing.location = location
+      hearing.time = Time.new(date.year, date.month, date.day, time.hour, time.min)
+      hearing.case = self
+      hearing.save
     end
   end
 

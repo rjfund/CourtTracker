@@ -31,6 +31,7 @@
       <thead>
         <tr>
           <th>Case</th>
+          <th>Type</th>
           <th>Uid</th>
         </tr>
       </thead>
@@ -39,6 +40,7 @@
         <% @cases.each do |kase| %>
           <tr>
             <td><%= link_to kase.title.titleize, kase %></td>
+            <td><%= kase.case_type.title %></td>
             <td><%= kase.uid %></td>
           </tr>
         <% end %>

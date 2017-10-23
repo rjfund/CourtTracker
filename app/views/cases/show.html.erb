@@ -45,7 +45,7 @@
               <%= hearing.time.strftime("%b %d, %Y") %>
               <br>
               <%= hearing.time.strftime("%I:%M%p") %></td>
-            <td><%= hearing.title.titleize %></td>
+            <td><%= hearing.title ? hearing.title.titleize : "N/A" %></td>
             <td><%= hearing.location %></td>
           </tr>
         <% end %>
