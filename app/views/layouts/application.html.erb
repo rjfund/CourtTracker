@@ -15,6 +15,23 @@
 
   <body>
 
+    <% if flash[:error] %>
+      <div class="notification is-danger slide-in">
+        <button class="delete"></button>
+        <%= flash[:error] %>
+      </div>
+
+    <% end %>
+
+    <% if flash[:notice] %>
+
+      <div class="notification is-primary slide-in">
+        <button class="delete"></button>
+        <%= flash[:notice] %>
+      </div>
+
+    <% end %>
+
     <nav class="navbar" role="navigation" aria-label="dropdown navigation">
       <div class="navbar-brand">
         <a class="navbar-item has-text-weight-bold" href="/">

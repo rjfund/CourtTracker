@@ -9,7 +9,6 @@ class CasesController < ApplicationController
     @hearings = current_user.hearings
 
     @case = Case.new
-    #@case.user = current_user
   end
 
   # GET /cases/1
@@ -29,7 +28,6 @@ class CasesController < ApplicationController
   # POST /cases
   # POST /cases.json
   def create
-    case_params[:type] = case_params[:type]=="Civil" ? true : false
     @case = Case.new(case_params)
     @case.user = current_user
 
@@ -38,7 +36,7 @@ class CasesController < ApplicationController
         format.html { redirect_to @case, notice: 'Case was successfully created.' }
         format.json { render :show, status: :created, location: @case }
       else
-        format.html { redirect_to cases_path, notice: 'Case was not found' }
+        format.html { redirect_to cases_path, flash: {error: "Case not found."} }
         format.json { render json: @case.errors, status: :unprocessable_entity }
       end
     end

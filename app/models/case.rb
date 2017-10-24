@@ -6,15 +6,69 @@ class Case < ApplicationRecord
   attr_accessor :name
 
 
-  before_create :scrape_data, :check_check
+  before_create :check_data
+  after_create :scrape_data
+
+  def check_data
+    if self.case_type == CaseType.find_by_title("Civil")
+      check_civil_data
+    elsif self.case_type == CaseType.find_by_title("Criminal")
+      check_criminal_data
+    end
+  end
+
+  def check_civil_data
+    require 'rubygems'
+    require 'mechanize'
+    require 'nokogiri'
+
+    mechanize = Mechanize.new
+
+    page = mechanize.get('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil')
+
+    test_case_number = self.uid
+
+    case_number_field = page.search("input.textInput")[0]
+
+    form = page.forms.last
+    form.field_with(:name=> "CaseNumber").value = test_case_number
+
+    page = mechanize.submit(form)
+    noko = Nokogiri::HTML(page.body)
+
+    ########## EXIT IF NO RESULT FOUND
+    throw :abort if noko.at('span.boldText:contains("Case Number:")').nil?
+  end
+
+  def check_criminal_data
+    require 'rubygems'
+    require 'mechanize'
+    require 'nokogiri'
+    mechanize = Mechanize.new
+
+    ########## FORM FILL
+
+    page = mechanize.get('http://www.lacourt.org/criminalcasesummary/ui/')
+    page = mechanize.submit(page.forms.last)
+
+    page.forms.last.fields[3].value = self.uid
+
+    page = mechanize.submit(page.forms.last)
+
+    ########## SCAN FOR INFO
+
+    noko = Nokogiri::HTML(page.body)
+
+    ########## EXIT IF NO RESULT FOUND
+    throw :abort if noko.at('td:contains("Defendant Name")').nil?
+  end
 
   def scrape_data
     if self.case_type == CaseType.find_by_title("Civil")
-      res = scrape_civil_data
+      scrape_civil_data
     elsif self.case_type == CaseType.find_by_title("Criminal")
-      res = scrape_criminal_data
+      scrape_criminal_data
     end
-    return res
   end
 
   def scrape_criminal_data
@@ -36,9 +90,6 @@ class Case < ApplicationRecord
 
     noko = Nokogiri::HTML(page.body)
 
-    ########## EXIT IF NO RESULT FOUND
-    return false if noko.at('td:contains("Defendant Name")').nil?
-    
     defendant_name = noko.at('td:contains("Defendant Name")').next.text.strip
     self.title = defendant_name
     self.save
@@ -81,9 +132,6 @@ class Case < ApplicationRecord
 
     page = mechanize.submit(form)
     noko = Nokogiri::HTML(page.body)
-
-    ########## EXIT IF NO RESULT FOUND
-    return false if noko.at('span.boldText:contains("Case Number:")')
 
     self.title = noko.at('span.boldText:contains("Case Number:")').next.next.next.text.strip
 

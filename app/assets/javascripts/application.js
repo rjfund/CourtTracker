@@ -86,6 +86,12 @@ $(document).on('ready', function(){
     $(this).toggleClass('is-active')
     $('.navbar-menu').toggleClass('is-active')
   })
+
+  $('.notification button.delete').on('click', function(e){
+    $(this).parent().removeClass("slide-in")
+    $(this).parent().addClass("slide-out")
+  })
+
 })
 
 
