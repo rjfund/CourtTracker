@@ -74,12 +74,12 @@ $(document).on('ready', function(){
 
   $('#new-case-button').on('click', function(e){
     e.preventDefault()
-    $('.modal').toggleClass('is-active')
+    $('#new-case-form').toggleClass('is-active')
   })
 
-  $('.modal button.close-modal').on('click', function(e){
+  $('#new-case-form.modal button.close-modal').on('click', function(e){
     e.preventDefault()
-    $('.modal').toggleClass('is-active')
+    $('#new-case-form').toggleClass('is-active')
   })
 
   $('.navbar-burger').on('click', function(e){
@@ -91,6 +91,16 @@ $(document).on('ready', function(){
     $(this).parent().removeClass("slide-in")
     $(this).parent().addClass("slide-out")
     $(this).parent().hide(500)
+  })
+
+  $('#info-button').on('click', function(e){
+    e.preventDefault()
+    $('#info-modal').toggleClass('is-active')
+  })
+
+  $('#info-modal button.close-modal').on('click', function(e){
+    e.preventDefault();
+    $('#info-modal').toggleClass('is-active');
   })
 
 })

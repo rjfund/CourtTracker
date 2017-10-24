@@ -221,14 +221,3 @@ task :fix_location_title_data => :environment do
     hearing.save
   end
 end
-
-desc "Generate invite codes"
-task :generate_invite_codes => :environment do
-  20.times do
-    random_code = rand(10000..99999)
-    InviteCode.create(code: random_code)
-  end
-end
-
-
-

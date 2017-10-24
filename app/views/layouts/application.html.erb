@@ -64,7 +64,14 @@
       <div class="navbar-menu" id="navMenu">
         <div class="navbar-start">
           <%= link_to 'Cases', cases_path, class: 'navbar-item' %>
-          <%= link_to 'Voicemail', voice_messages_path, class: 'navbar-item' %>
+          <%= link_to('Voicemail', voice_messages_path, class: 'navbar-item') if ["peter@brnstn.org","coopermayne@gmail.com"].include?(current_user.email) %>
+
+          <a class="navbar-item" id="info-button">
+            <span class="icon">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </span>
+          </a>
+
         </div>
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
@@ -96,6 +103,22 @@
     </nav>
 
       <%= yield %>
+
+      <div class="modal" id="info-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Information</p>
+            <button class="delete close-modal" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <p>CrtTrker scans www.lacourt.org for information about the cases you are interested in. Scanned data will appear here for easy access</p>
+            <p>Also. You will be notified by email any time a new court date or document is added to http://www.lacourt.org.</p>
+          </section>
+          <footer class="modal-card-foot">
+          </footer>
+        </div>
+      </div>
 
 
   </body>
