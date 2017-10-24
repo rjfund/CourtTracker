@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023210703) do
+ActiveRecord::Schema.define(version: 20171024183026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,13 @@ ActiveRecord::Schema.define(version: 20171023210703) do
     t.boolean  "needs_email", default: false
     t.string   "location"
     t.index ["case_id"], name: "index_hearings_on_case_id", using: :btree
+  end
+
+  create_table "invite_codes", force: :cascade do |t|
+    t.bigint   "code"
+    t.boolean  "used",       default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "users", force: :cascade do |t|
