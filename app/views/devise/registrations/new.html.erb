@@ -1,11 +1,8 @@
-
 <% if resource && !resource.errors.empty? %>
-
   <div class="notification is-danger slide-in">
     <button class="delete"></button>
     <%= resource.errors.full_messages.map { |msg| content_tag(:li, msg) }.join.html_safe %>
   </div>
-
 <% end %>
 
 <section class="section devise">
@@ -53,7 +50,5 @@
 
   <br />
   <%= render "devise/shared/links" %>
-
-
 </div>
 </section>

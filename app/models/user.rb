@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   def whitelist
-    ["coopermayne@gmail.com", "coopcoop@gmail.com"]
+    [ "coopcoop@gmail.com"]
   end
 
 
