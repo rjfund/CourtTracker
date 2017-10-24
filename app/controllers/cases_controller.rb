@@ -1,4 +1,5 @@
 class CasesController < ApplicationController
+
   before_action :set_case, only: [:show, :edit, :update, :destroy]
 
   # GET /cases

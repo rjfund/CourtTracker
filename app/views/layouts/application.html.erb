@@ -15,6 +15,14 @@
 
   <body>
 
+    <% if flash[:alert] %>
+      <div class="notification is-danger slide-in">
+        <button class="delete"></button>
+        <%= flash[:alert] %>
+      </div>
+
+    <% end %>
+    
     <% if flash[:error] %>
       <div class="notification is-danger slide-in">
         <button class="delete"></button>
@@ -89,5 +97,9 @@
 
       <%= yield %>
 
+
+      <div>
+        <%= flash.keys %>
+      </div>
   </body>
 </html>

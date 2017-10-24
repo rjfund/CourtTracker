@@ -90,6 +90,7 @@ $(document).on('ready', function(){
   $('.notification button.delete').on('click', function(e){
     $(this).parent().removeClass("slide-in")
     $(this).parent().addClass("slide-out")
+    $(this).parent().hide(500)
   })
 
 })

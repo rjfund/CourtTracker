@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  before_create :check_for_invite_code
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   has_many :cases
@@ -9,9 +8,15 @@ class User < ApplicationRecord
   has_many :hearings, through: :cases
   has_many :documents, through: :cases
 
-  attr_accessor :invite_code
+  validate :email_whitelist, on: :create
 
-  def check_for_invite_code
-    throw :abort
+  def email_whitelist
+    errors.add(:email, "is not on whitelist") unless whitelist.include?(self.email)
   end
+
+  def whitelist
+    ["coopermayne@gmail.com", "coopcoop@gmail.com"]
+  end
+
+
 end
