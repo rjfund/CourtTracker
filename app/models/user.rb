@@ -2,9 +2,10 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  has_many :cases
-  has_many :voice_messages
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :confirmable
+
+  has_many :cases, dependent: :destroy
+  has_many :voice_messages, dependent: :destroy
   has_many :hearings, through: :cases
   has_many :documents, through: :cases
 
@@ -15,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def whitelist
-    [ "coopcoop@gmail.com"]
+    [ "coopermayne@gmail.com"]
   end
 
 
