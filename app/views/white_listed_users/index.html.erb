@@ -1,0 +1,78 @@
+<section class="hero is-info is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Guest Users
+      </h1>
+    </div>
+  </div>
+
+</section>
+
+<section class="main section">
+  <div class='main container'>
+
+  <%= link_to 'New Guest User', new_case_path, id: 'new-case-button', class: "button is-pulled-right is-primary"  %>
+
+  </div>
+</section>
+
+<section class="main section">
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>E-mail</th>
+          <th>Last Sign In</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @w_users.each do |w_user| %>
+          <tr>
+            <td> <%= w_user.name %></td>
+            <td><%= w_user.email %></td>
+            <% usr = User.find_by_email(w_user.email) %>
+            <td><%= usr ? usr.last_sign_in_at.to_s(:short) : "Never" %></td>
+            <td><%= link_to 'Remove', w_user,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%= form_for(@new_w_user) do |f| %>
+<div id='new-case-form' class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">New Guest User</p>
+      <button class="delete close-modal" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <div class="field">
+        <%= f.label :email, class: 'label' %>
+        <div class="control">
+          <%= f.email_field :email, class: 'input' %>
+        </div>
+      </div>
+
+      <div class="control">
+        <%= f.label :name, class: 'label' %>
+        <div class="field">
+          <%= f.text_field :name, class: 'input' %>
+        </div>
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <%= f.submit 'Save', class: 'button is-success' %>
+      <button class="button close-modal">Cancel</button>
+    </footer>
+  </div>
+</div>
+<% end %>

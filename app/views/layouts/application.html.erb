@@ -65,6 +65,7 @@
         <div class="navbar-start">
           <%= link_to 'Cases', cases_path, class: 'navbar-item' %>
           <%= link_to('Voicemail', voice_messages_path, class: 'navbar-item') if ["peter@brnstn.org","coopermayne@gmail.com"].include?(current_user.email) %>
+          <%= link_to('White List', white_listed_users_path, class: 'navbar-item') if ["peter@brnstn.org","coopermayne@gmail.com"].include?(current_user.email) %>
 
           <a class="navbar-item" id="info-button">
             <span class="icon">

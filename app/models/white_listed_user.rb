@@ -1,0 +1,2 @@
+class WhiteListedUser < ApplicationRecord
+end

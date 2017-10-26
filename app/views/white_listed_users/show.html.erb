@@ -1,0 +1,81 @@
+<section class="hero is-info is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Case Information
+      </h1>
+      <h2 class="subtitle">
+        <%= @case.title.titleize %>
+      </h2>
+    </div>
+  </div>
+  <div>
+
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+          <li class="hearings-link is-active"><a>Hearings</a></li>
+          <li class="documents-link"><a>Documents</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="main section">
+  <div class='main container'>
+
+    <%= link_to 'Delete Case', @case, method: :delete, data: { confirm: 'Are you sure?'}, id: 'destroy-case-button', class: "button is-pulled-right is-danger"  %>
+
+  <div class="hearings">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @case.hearings.sort_by(&:time).each do |hearing| %>
+          <tr>
+            <td>
+              <%= hearing.time.strftime("%b %d, %Y") %>
+              <br>
+              <%= hearing.time.strftime("%I:%M%p") %></td>
+            <td><%= hearing.title ? hearing.title.titleize : "N/A" %></td>
+            <td><%= hearing.location %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= "No hearings scheduled" if @case.hearings.empty? %>
+  </div>
+
+  <div class="documents">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Filed By</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @case.documents.sort_by(&:date).reverse.each do |doc| %>
+          <tr>
+            <td style="width:150px"><%= doc.date.strftime("%b %d, %Y") if doc.date %></td>
+            <td><%= doc.title %></td>
+            <td><%= doc.filed_by %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= "No documents filed" if @case.documents.empty? %>
+  </div>
+
+  </div>
+</section>
