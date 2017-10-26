@@ -16,7 +16,7 @@
     <h3><%= kase.title %></h3>
     <% hearings.each do |hearing|  %>
       <p> 
-        <%= hearing.time.to_formatted_s(:long_ordinal) + " | " + hearing.title %>
+        <%= hearing.time.to_formatted_s(:long_ordinal) + " | " + hearing.location %>
       </p>
     <% end %>
   <% end %>
