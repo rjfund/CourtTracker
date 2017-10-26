@@ -34,7 +34,7 @@ class CasesController < ApplicationController
 
     respond_to do |format|
       if @case.save
-        format.html { redirect_to @case, notice: 'Case was successfully created.' }
+        format.html { redirect_to cases_path, notice: 'Case was successfully created.' }
         format.json { render :show, status: :created, location: @case }
       else
         format.html { redirect_to cases_path, flash: {error: "Case not found."} }
