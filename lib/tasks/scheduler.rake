@@ -59,11 +59,10 @@ def scan_for_new_criminal_data(user)
       hearing.case = kase
 
       #check for match
-      matches = Hearing.where(time: hearing.time).where(title: hearing.title).where(case_id: hearing.case.id)
+      matches = Hearing.where(time: hearing.time).where(location: hearing.location).where(case_id: hearing.case.id)
       if matches.empty? || !matches.map(&:case).map(&:user).include?(user)
         hearing.needs_email = true
         hearing.save
-        puts "saved: " + hearing.title
       end
 
     end
