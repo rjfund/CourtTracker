@@ -110,12 +110,12 @@ def scan_for_new_civil_data(user)
 
         hearing = Hearing.new
         hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.min)
-        hearing.title = parsed_event.message
+        hearing.location = parsed_event.message
 
         hearing.case = kase
 
         #check if hearing is already in DB
-        match = Hearing.where(time: hearing.time).where(title: hearing.title).where(case_id: hearing.case.id)
+        match = Hearing.where(time: hearing.time).where(location: hearing.location).where(case_id: hearing.case.id)
 
         # if it's not already in there add it to the database and flag it for email
         if match.empty?
