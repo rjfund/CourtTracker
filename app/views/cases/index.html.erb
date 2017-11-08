@@ -53,6 +53,7 @@
       <thead>
         <tr>
           <th>Date</th>
+          <th>Time</th>
           <th>Case</th>
           <th>Location</th>
         </tr>
@@ -61,10 +62,8 @@
       <tbody>
         <% @hearings.sort_by(&:time).each do |hearing| %>
           <tr>
-            <td>
-              <%= hearing.time.strftime("%m/%d/%Y") %>
-              <br>
-              <%= hearing.time.strftime("%I:%M%p") %></td>
+            <td> <%= hearing.time.strftime("%m/%d/%Y") %></td>
+            <td> <%= hearing.time.strftime("%I:%M%p") %></td>
             <td><%= link_to hearing.case.title.titleize, hearing.case %></td>
             <td><%= hearing.location %></td>
           </tr>
