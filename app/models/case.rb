@@ -195,6 +195,7 @@ class Case < ApplicationRecord
 
       el = el.next
 
+      run = !el.nil?
       if el && el.attr('class') && el.attr('class')=="contentHeading"
         run = false
       end
