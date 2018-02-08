@@ -172,6 +172,8 @@ class Case < ApplicationRecord
 
   def scrape_docs(noko)
     docs = []
+    return [] if noko.at('[name="DOC"]').nil?
+
     el = noko.at('[name="DOC"]').parent
 
     run = !el.nil?
