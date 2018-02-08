@@ -14,7 +14,6 @@ task :scrape => :environment do
 
 ########## send the new docuemnts in an email... and mark needs_email false
     
-    byebug
     unless new_documents.empty? && new_hearings.empty?
       ( new_hearings + new_documents ).each {|item| item.needs_email=false; item.save}
 
