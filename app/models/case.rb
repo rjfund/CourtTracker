@@ -133,41 +133,48 @@ class Case < ApplicationRecord
     page = mechanize.submit(form)
     noko = Nokogiri::HTML(page.body)
 
-    self.title = noko.at('span.boldText:contains("Case Number:")').next.next.next.text.strip
+    self.title = noko.at('b:contains("Case Number:")').parent.parent.children.last.text.strip
 
-    self.title = noko.at('span.boldText:contains("Case Number:")').next.next.next.text.strip
+    self.hearings << scrape_hearings(noko)
+    self.documents << scrape_docs(noko)
+
     self.save
+  end
 
-    #get future hearings
-    #TODO get multiple (need a sameple case number)
-    el = noko.at('span.contentSubHeading:contains("Future Hearings")')
+  def scrape_hearings(noko)
+    el = noko.at('[name="SCH"]').parent
+    hearings = []
     run = !el.nil?
     while run
       el = el.next
 
       if el.name == 'b'
         text = el.text + el.next.text
-        
+
         parsed_event = Nickel.parse text
         sd= parsed_event.occurrences.first.start_date
         st= parsed_event.occurrences.first.start_time
 
         hearing = Hearing.new
-        hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.minute)
+        hearing.time = Time.new(sd.year, sd.month, sd.day, st.hour, st.min)
         hearing.location = parsed_event.message
+        hearing.title = el.next.next.next.text
         hearing.case = self
-        hearing.save
-      
+        hearings << hearing
       end
 
-      if el.attr('class') && el.attr('class')=="dividerGrayLine"
+      if el.attr('class') && el.attr('class')=="contentHeading"
         run = false
       end
     end
+    hearings
+  end
 
-    el = noko.at('span.contentSubHeading:contains("Documents Filed")')
+  def scrape_docs(noko)
+    docs = []
+    el = noko.at('[name="DOC"]').parent
+
     run = !el.nil?
-
     while run
       if el.name == "p"
         #month/day/year, text, filed by
@@ -182,17 +189,85 @@ class Case < ApplicationRecord
           document.date = date
           document.title = title
           document.filed_by = filed_by
-          document.case = self
-          document.save
-
+          docs << document
         end
       end
 
       el = el.next
-      if el.attr('class') && el.attr('class')=="dividerGrayLine"
+
+      if el.attr('class') && el.attr('class')=="contentHeading"
         run = false
       end
     end
+
+    docs
+  end
+
+  def update_data
+    if self.case_type == CaseType.find_by_title("Civil")
+      update_civil_data
+    elsif self.case_type == CaseType.find_by_title("Criminal")
+      update_criminal_data
+    end
+  end
+
+  def update_civil_data
+    require 'rubygems'
+    require 'mechanize'
+    require 'nokogiri'
+
+    mechanize = Mechanize.new
+
+    page = mechanize.get('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil')
+
+    test_case_number = self.uid
+
+    case_number_field = page.search("input.textInput")[0]
+
+    form = page.forms.last
+    form.field_with(:name=> "CaseNumber").value = test_case_number
+
+    page = mechanize.submit(form)
+    noko = Nokogiri::HTML(page.body)
+
+    #UPDATE HEARINGS
+    current_hearings = scrape_hearings(noko)
+
+    new_hearings = []
+    current_hearings.each do |current_hearing|
+
+      match = self.hearings.select do |hearing|
+        hearing.time==current_hearing.time && hearing.title==current_hearing.title
+      end
+
+      if match.empty?
+        current_hearing.needs_email = true
+        new_hearings << current_hearing
+      end
+    end
+
+    #UPDATE DOCS
+    current_docs = scrape_docs(noko)
+
+    new_documents = []
+    current_docs.each do |current_doc|
+
+      match = self.documents.select do |doc|
+        doc.title==current_doc.title && doc.date==current_doc.date
+      end
+
+      if match.empty?
+        current_doc.needs_email = true
+        new_documents << current_doc
+      end
+    end
+
+    self.documents << new_documents
+    self.hearings << new_hearings
+
+  end
+
+  def update_criminal_data
   end
 
 end
