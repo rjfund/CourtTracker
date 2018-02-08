@@ -163,7 +163,7 @@ class Case < ApplicationRecord
         hearings << hearing
       end
 
-      if el.attr('class') && el.attr('class')=="contentHeading"
+      if el && el.attr('class') && el.attr('class')=="contentHeading"
         run = false
       end
     end
@@ -195,7 +195,7 @@ class Case < ApplicationRecord
 
       el = el.next
 
-      if el.attr('class') && el.attr('class')=="contentHeading"
+      if el && el.attr('class') && el.attr('class')=="contentHeading"
         run = false
       end
     end
