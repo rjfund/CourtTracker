@@ -15,6 +15,7 @@ class CasesController < ApplicationController
   # GET /cases/1
   # GET /cases/1.json
   def show
+
   end
 
   # GET /cases/new
