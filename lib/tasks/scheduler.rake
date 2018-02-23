@@ -2,7 +2,15 @@ desc "This task is called by the Heroku scheduler add-on"
 task :scrape => :environment do
 
   #UPDATE DATA
-  Case.all.each {|kase| kase.update_data}
+  begin
+
+    Case.all.each {|kase| kase.update_data}
+
+  rescue => error
+  
+    UpdateMailer.emergency_email(User.find_by_email('coopermayne@gmail.com')).deliver
+
+  end
 
   #EMAIL USERS
   User.all.each do |user|

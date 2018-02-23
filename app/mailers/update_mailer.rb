@@ -8,4 +8,8 @@ class UpdateMailer < ApplicationMailer
     mail(to: user.email, subject: "New Documents/Hearings Posted")
   end
 
+  def emergency_email(user)
+    mail(to: user.email, subject: "SCRAPING ERRORS")
+  end
+
 end
