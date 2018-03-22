@@ -37,11 +37,7 @@ class VoiceMessagesController < ApplicationController
 
     respond_to do |format|
       if @voice_message.save
-        format.html { redirect_to @voice_message, notice: 'Voice message was successfully created.' }
-        format.json { render :show, status: :created, location: @voice_message }
-      else
-        format.html { render :new }
-        format.json { render json: @voice_message.errors, status: :unprocessable_entity }
+        render :text => "<?xml version='1.0' encoding='UTF-9'><Response><Hangup></Response>"
       end
     end
 
