@@ -35,10 +35,8 @@ class VoiceMessagesController < ApplicationController
 
     @voice_message.url = params['RecordingUrl']
 
-    respond_to do |format|
-      if @voice_message.save
-        render :text => "<?xml version='1.0' encoding='UTF-9'><Response><Hangup></Response>"
-      end
+    if @voice_message.save
+      render :xml => "<?xml version='1.0' encoding='UTF-9'><Response><Hangup></Response>"
     end
 
   end
