@@ -22,19 +22,10 @@ class Case < ApplicationRecord
     require 'mechanize'
     require 'nokogiri'
 
-    mechanize = Mechanize.new
 
-    page = mechanize.get('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil')
+    res  = HTTParty.post('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil&CaseNumber=' + self.uid )
 
-    test_case_number = self.uid
-
-    case_number_field = page.search("input.textInput")[0]
-
-    form = page.forms.last
-    form.field_with(:name=> "CaseNumber").value = test_case_number
-
-    page = mechanize.submit(form)
-    noko = Nokogiri::HTML(page.body)
+    noko = Nokogiri::HTML(res)
 
     ########## EXIT IF NO RESULT FOUND
     throw :abort if noko.at('span.boldText:contains("Case Number:")').nil?
@@ -128,7 +119,7 @@ class Case < ApplicationRecord
     case_number_field = page.search("input.textInput")[0]
 
     form = page.forms.last
-    form.field_with(:name=> "CaseNumber").value = test_case_number
+    form["CaseNumber"] = test_case_number
 
     page = mechanize.submit(form)
     noko = Nokogiri::HTML(page.body)
@@ -137,7 +128,6 @@ class Case < ApplicationRecord
 
     self.hearings << scrape_hearings(noko)
     self.documents << scrape_docs(noko)
-
     self.save
   end
 
@@ -219,21 +209,12 @@ class Case < ApplicationRecord
     require 'mechanize'
     require 'nokogiri'
 
-    mechanize = Mechanize.new
+    res  = HTTParty.post('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil&CaseNumber=' + self.uid )
 
-    page = mechanize.get('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil')
-
-    test_case_number = self.uid
-
-    case_number_field = page.search("input.textInput")[0]
-
-    form = page.forms.last
-    form.field_with(:name=> "CaseNumber").value = test_case_number
-
-    page = mechanize.submit(form)
-    noko = Nokogiri::HTML(page.body)
+    noko = Nokogiri::HTML(res)
 
     #UPDATE HEARINGS
+    #
     current_hearings = scrape_hearings(noko)
 
     new_hearings = []
@@ -271,6 +252,7 @@ class Case < ApplicationRecord
   end
 
   def update_criminal_data
+    #TODO create crim updater
   end
 
 end
