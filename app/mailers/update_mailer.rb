@@ -13,7 +13,7 @@ class UpdateMailer < ApplicationMailer
   end
 
   def new_voicemail_email
-    mail(to: 'coopermayne@gmail.com', subject: "New JVM Voice Mail")
+    mail(to: 'peter@brnstn.org', subject: "New JVM Voice Mail")
   end
 
 end
