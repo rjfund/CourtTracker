@@ -110,19 +110,8 @@ class Case < ApplicationRecord
     require 'mechanize'
     require 'nokogiri'
 
-    mechanize = Mechanize.new
-
-    page = mechanize.get('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil')
-
-    test_case_number = self.uid
-
-    case_number_field = page.search("input.textInput")[0]
-
-    form = page.forms.last
-    form["CaseNumber"] = test_case_number
-
-    page = mechanize.submit(form)
-    noko = Nokogiri::HTML(page.body)
+    res  = HTTParty.post('http://www.lacourt.org/casesummary/ui/index.aspx?casetype=civil&CaseNumber=' + self.uid )
+    noko = Nokogiri::HTML(res)
 
     self.title = noko.at('b:contains("Case Number:")').parent.parent.children.last.text.strip
 
