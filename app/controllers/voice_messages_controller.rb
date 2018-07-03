@@ -28,6 +28,8 @@ class VoiceMessagesController < ApplicationController
   # POST /voice_messages.json
   def create
 
+
+
     @voice_message = VoiceMessage.new
 
     @voice_message.user = User.first
@@ -36,7 +38,9 @@ class VoiceMessagesController < ApplicationController
     @voice_message.url = params['RecordingUrl']
 
     if @voice_message.save
-      render :xml => '<?xml version="1.0" encoding="UTF-8"?><Response><Say>Message recorded. Thank you</Say></Response>'
+     UpdateMailer.new_voicemail.deliver
+
+     render :xml => '<?xml version="1.0" encoding="UTF-8"?><Response><Say>Message recorded. Thank you</Say></Response>'
     end
 
   end

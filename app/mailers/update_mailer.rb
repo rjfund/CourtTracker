@@ -12,4 +12,8 @@ class UpdateMailer < ApplicationMailer
     mail(to: user.email, subject: "SCRAPING ERRORS")
   end
 
+  def new_voicemail_email
+    mail(to: 'coopermayne@gmail.com', subject: "New JVM Voice Mail")
+  end
+
 end
