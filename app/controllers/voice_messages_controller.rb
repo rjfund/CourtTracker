@@ -38,7 +38,7 @@ class VoiceMessagesController < ApplicationController
     @voice_message.url = params['RecordingUrl']
 
     if @voice_message.save
-     UpdateMailer.new_voicemail.deliver
+      UpdateMailer.new_voicemail_email.deliver
 
      render :xml => '<?xml version="1.0" encoding="UTF-8"?><Response><Say>Message recorded. Thank you</Say></Response>'
     end
